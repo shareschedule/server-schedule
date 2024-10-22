@@ -1,6 +1,6 @@
 spring:
   application:
-    name: SSSchedule
+    name: schedule
   profiles:
     active: dev
   config:

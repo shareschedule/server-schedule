@@ -21,4 +21,9 @@ class ScheduleQueryAdaptor(
             .orElseThrow { throw Common404Exception() }
             .toDomain()
     }
+
+    override fun findAllByCalendarId(calendarId: Long): List<Schedule> {
+        return scheduleRepository.findAllByCalendarId(calendarId)
+            .map { it.toDomain() }
+    }
 }

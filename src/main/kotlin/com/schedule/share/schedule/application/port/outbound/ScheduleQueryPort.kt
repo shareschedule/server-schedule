@@ -6,4 +6,6 @@ interface ScheduleQueryPort {
     fun findAll(): List<Schedule>
 
     fun findById(id: Long): Schedule
+
+    fun findAllByCalendarId(calendarId: Long): List<Schedule>
 }

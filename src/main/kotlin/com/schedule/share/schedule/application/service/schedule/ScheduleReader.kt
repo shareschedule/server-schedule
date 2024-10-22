@@ -15,5 +15,8 @@ class ScheduleReader(
         id: Long
     ): ScheduleVO.Schedule = scheduleQueryPort.findById(id).toVO()
 
-    override fun list(): List<ScheduleVO.Schedule> = scheduleQueryPort.findAll().map { it.toVO() }
+    override fun list(
+        calendarId: Long
+    ): List<ScheduleVO.Schedule> = scheduleQueryPort.findAllByCalendarId(calendarId)
+        .map { it.toVO() }
 }

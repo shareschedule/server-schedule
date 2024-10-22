@@ -35,12 +35,13 @@ class ScheduleApi(
     )
 
     @Operation(summary = "스케쥴 조회 API", description = "스토어 조회 API")
-    @GetMapping
+    @GetMapping("/calendars/{calendarId}")
     fun getList(
         @RequestParam(defaultValue = "0") limit: Int,
         @RequestParam(defaultValue = "0") offset: Int,
+        @PathVariable calendarId: Long,
     ): ResponseModel<List<ScheduleResponseDTO.Response>> {
-        val response = scheduleQuery.list().map { it.toResponse() }
+        val response = scheduleQuery.list(calendarId).map { it.toResponse() }
 
         return ResponseModel.of(
             data = response,

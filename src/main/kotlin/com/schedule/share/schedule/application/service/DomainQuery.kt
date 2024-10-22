@@ -4,5 +4,5 @@ interface DomainQuery<T> {
 
     fun get(id: Long): T
 
-    fun list(): List<T>
+    fun list(calendarId: Long): List<T>
 }

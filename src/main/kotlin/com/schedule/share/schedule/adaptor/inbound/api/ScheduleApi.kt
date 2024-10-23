@@ -8,6 +8,7 @@ import com.schedule.share.schedule.application.port.inbound.ScheduleCommand
 import com.schedule.share.schedule.application.port.inbound.ScheduleQuery
 import com.schedule.share.schedule.application.service.schedule.ScheduleService
 import com.schedule.share.common.model.ResponseModel
+import com.schedule.share.schedule.application.service.schedule.ScheduleProducerService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/schedules")
 class ScheduleApi(
+    private val service: ScheduleProducerService, //TODO: 인터페이스로 교체하기
     private val scheduleQuery: ScheduleQuery,
     private val scheduleCommand: ScheduleCommand,
     private val scheduleService: ScheduleService,
@@ -56,14 +58,20 @@ class ScheduleApi(
     fun post(
         @RequestParam calendarId: Long,
         @RequestBody body: ScheduleRequestDTO.Schedule,
-    ): ResponseModel<Long> = ResponseModel(
-        data = scheduleCommand.create(
-            param = body.toVO(
-                userId = 1L,
-                calendarId = calendarId,
+    ): ResponseModel<Long>  {
+        service.createSchedule(param = body.toVO(
+            userId = 1L,
+            calendarId = calendarId,
+        )   )
+        return ResponseModel(
+            data = scheduleCommand.create(
+                param = body.toVO(
+                    userId = 1L,
+                    calendarId = calendarId,
+                )
             )
         )
-    )
+    }
 
     @Operation(summary = "스케쥴 수정 API", description = "스토어 수정 API")
     @PutMapping("/{id}")

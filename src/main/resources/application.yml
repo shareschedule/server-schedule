@@ -13,7 +13,7 @@ eureka:
       defaultZone: http://son:1234@localhost:8761/eureka
 
 #  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    driver-class-name: com.mysql.cj.jdbcs.Driver
 #    url: "jdbc:mysql://localhost:3306/schedule?autoReconnect=true&useUnicode=true&serverTimezone=Asia/Seoul"
 #    username: root
 #    password: test1234

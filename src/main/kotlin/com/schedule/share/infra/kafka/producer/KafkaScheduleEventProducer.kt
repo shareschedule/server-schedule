@@ -15,6 +15,5 @@ class ScheduleEventProducer (
 
     override fun produceCreatedScheduleEvent(event: CreateScheduleEvent) {
         val send = kafkaTemplate.send(TOPIC_CREATE_SCHDULE, event)
-
     }
 }

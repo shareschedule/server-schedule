@@ -10,15 +10,7 @@ import com.schedule.share.schedule.application.service.schedule.ScheduleService
 import com.schedule.share.common.model.ResponseModel
 import com.schedule.share.schedule.application.service.schedule.ScheduleProducerService
 import io.swagger.v3.oas.annotations.Operation
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/schedules")
@@ -56,34 +48,31 @@ class ScheduleApi(
     @Operation(summary = "스케쥴 등록 API", description = "스토어 등록 API")
     @PostMapping
     fun post(
+        @RequestHeader("X-UserId") userId: Long,
         @RequestParam calendarId: Long,
         @RequestBody body: ScheduleRequestDTO.Schedule,
-    ): ResponseModel<Long>  {
-        service.createSchedule(param = body.toVO(
-            userId = 1L,
-            calendarId = calendarId,
-        )   )
-        return ResponseModel(
+    ): ResponseModel<Long>  = ResponseModel(
             data = scheduleCommand.create(
                 param = body.toVO(
-                    userId = 1L,
+                    userId = userId,
                     calendarId = calendarId,
                 )
             )
         )
-    }
 
+    //TODO FATCH로 변경하기
     @Operation(summary = "스케쥴 수정 API", description = "스토어 수정 API")
-    @PutMapping("/{id}")
+    @PutMapping("/{calendarId}/{id}")
     fun put(
-        @PathVariable id: Long,
+        @RequestHeader("X-UserId") userId: Long,
         @PathVariable calendarId: Long,
+        @PathVariable id: Long,
         @RequestBody body: ScheduleRequestDTO.Schedule,
     ) {
         scheduleCommand.update(
             id = id,
             param = body.toVO(
-                userId = 1L,
+                userId = userId,
                 calendarId = calendarId,
             )
         )
